@@ -17,16 +17,17 @@ index <- c()
 for(i in 1:length(names(SCC))){
   index <- union(index,grep("vehicle",ignore.case = TRUE,SCC[,i]))
 }
+baltimore <- NEI[NEI$fips=="24510",]
 vehicle <- NEI[index,"SCC"]
-vehicleFilt <- filter(NEI, NEI$SCC %in% vehicle )
+vehicleFilt <- filter(baltimore, baltimore$SCC %in% vehicle )
 p1 <- tapply(vehicleFilt$Emissions, vehicleFilt$year, sum)
 df <- data.frame(year=names(p1),Emissions=p1)
 #Opening png
 png(filename = "plot5.png",width = 480, height = 480)
 #Creating plot
 a <- ggplot(df,aes(year,Emissions,group=1))
-a+geom_line(size=2,col="brown")+ labs(title = "total PM2.5 emission in US",
-                                      subtitle = "from motor vehicle sources",
+a+geom_line(size=2,col="brown")+ labs(title = "total PM2.5 emission",
+                                      subtitle = "from motor vehicle sources in Baltimore City",
                                       y = "Emissions (in tons)",
                                       x = "Year")
 #Closing device
